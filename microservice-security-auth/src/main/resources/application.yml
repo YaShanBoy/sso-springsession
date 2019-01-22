@@ -1,0 +1,56 @@
+spring:
+  profiles:
+    active: sit
+#debug: false
+#logging:
+#  file: my.log
+server:
+  port: 9002
+  servlet:
+    context-path: /security/auth
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+---
+spring:
+  profiles: sit
+  thymeleaf:
+    enabled: true
+    cache: false
+    prefix: classpath:/templates/
+  redis:
+    host: 192.168.2.128
+  application:
+    name: microservice-security-auth
+  datasource:
+    url: jdbc:mysql://localhost:3306/auth?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      enable: true
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      #检查链接是活着
+      validation-query: select 1 from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      #池化游标，防止重复生成执行计划
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      #监控慢查询
+      filters: stat,wall
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          merge-sql: true
+          slow-sql-millis: 300

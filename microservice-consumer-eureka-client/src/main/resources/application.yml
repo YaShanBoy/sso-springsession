@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: consumer-eureka-client
+server:
+  port: 8082
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: false
+feign:
+  hystrix:
+    enabled: true

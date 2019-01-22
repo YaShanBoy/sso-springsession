@@ -1,0 +1,20 @@
+server:
+  port: 9001
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: false
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+zuul:
+  add-host-header: true
+  sensitive-headers:
+  routes:
+    security:
+      strip-prefix: false
+      service-id: microservice-security-auth
+      path: /security/auth/**
+    test:
+      strip-prefix: false
+      service-id: user-eureka-client
+      path: /eureka/client/**

@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          default-label: no do

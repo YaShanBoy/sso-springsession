@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.microservice.security.dao.mapper.SysUserMapper">
+	<resultMap type="com.microservice.security.domain.SysUserPo" id="sysUserPoMap">
+		<id column="userId" property="userId"/>
+		<result column="nickName" property="nickName"/>
+		<result column="realName" property="realName"/>
+		<result column="idCard" property="idCard"/>
+		<result column="idCardPhotos" property="idCardPhotos"/>
+		<result column="birthday" property="birthday"/>
+		<result column="telephone" property="telephone"/>
+		<result column="password" property="password"/>
+		<result column="sex" property="sex"/>
+		<result column="facePhotos" property="facePhotos"/>
+		<result column="attribution1" property="attribution1"/>
+		<result column="attribution2" property="attribution2"/>
+		<collection property="roles" ofType="com.microservice.security.domain.RolePo" column="userId">
+			<id column="role" property="role"/>
+			<result column="description" property="description"/>
+			<collection property="authorities" ofType="com.microservice.security.domain.AuthorityPo" 
+			column="role">
+				<id column="authority" property="authority"/>
+				<result column="description" property="description"/>
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="loadUserByUsername" parameterType="int" resultMap="sysUserPoMap">
+		SELECT u.userId,u.realName,u.birthday,u.password,ur.role,rp.authority
+		FROM t_user u
+			LEFT JOIN t_user_role ur ON u.userId = ur.userId
+			LEFT JOIN t_role_authority rp ON ur.role = rp.role
+		WHERE u.userId=#{userId}
+	</select>
+</mapper>
